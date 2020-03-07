@@ -55,7 +55,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RevitAPIUI">
-      <HintPath>D:\Revit\2014\RevitAPIUI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -68,7 +68,9 @@
   <Import Project="..\Revit.Async.Shared\Revit.Async.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rmdir /s /q $(SolutionDir)build\$(ConfigurationName)\net45
-xcopy /y /v $(TargetDir)*.*  $(SolutionDir)build\$(ConfigurationName)\net45\*.*</PostBuildEvent>
+    <PostBuildEvent>
+      rmdir /s /q $(SolutionDir)build\$(ConfigurationName)\net45
+      xcopy /y /v $(TargetDir)*.*  $(SolutionDir)build\$(ConfigurationName)\net45\*.*
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

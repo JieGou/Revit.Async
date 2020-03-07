@@ -1,15 +1,15 @@
 ﻿#region Reference
 
+using Autodesk.Revit.DB;
+using Revit.Async;
+using Revit.Async.Interfaces;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using Autodesk.Revit.DB;
-using Revit.Async;
-using Revit.Async.Interfaces;
 
-#endregion
+#endregion Reference
 
 namespace TestCommand
 {
@@ -26,13 +26,13 @@ namespace TestCommand
             ScopedRevitTask.Register(new SaveFamilyToDesktopExternalEventHandler());
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Properties
 
         private IRevitTask ScopedRevitTask { get; }
 
-        #endregion
+        #endregion Properties
 
         #region Interface Implementations
 
@@ -52,7 +52,8 @@ namespace TestCommand
                 {
                     //Support async task
                     //Raise global external event handler
-                    var randomFamily = await RevitTask.RaiseGlobal<GetRandomFamilyExternalEventHandler, bool, Family>(parameter as bool? ?? false);
+                    Family randomFamily = await RevitTask
+                        .RaiseGlobal<GetRandomFamilyExternalEventHandler, bool, Family>(parameter as bool? ?? false);
 
                     //Raise scoped external event handler
                     return await ScopedRevitTask.Raise<SaveFamilyToDesktopExternalEventHandler, Family, string>(randomFamily);
@@ -70,7 +71,7 @@ namespace TestCommand
             }
         }
 
-        #endregion
+        #endregion Interface Implementations
 
         #region Others
 
@@ -79,6 +80,6 @@ namespace TestCommand
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        #endregion
+        #endregion Others
     }
 }

@@ -1,14 +1,14 @@
 ﻿#region Reference
 
-using System;
-using System.IO;
-using System.Reflection;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Revit.Async;
+using System;
+using System.IO;
+using System.Reflection;
 
-#endregion
+#endregion Reference
 
 namespace TestCommand
 {
@@ -23,7 +23,7 @@ namespace TestCommand
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Interface Implementations
 
@@ -38,21 +38,27 @@ namespace TestCommand
             return Result.Succeeded;
         }
 
-        #endregion
+        #endregion Interface Implementations
 
         #region Others
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             var name = new AssemblyName(args.Name);
-            if (name.Name == "Revit.Async")
+            if (name.Name != "Revit.Async")
             {
-                return Assembly.LoadFrom(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Revit.Async.dll"));
+                return null;
             }
 
-            return null;
+            var s = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (s == null)
+            {
+                return null;
+            }
+
+            return Assembly.LoadFrom(Path.Combine(s, "Revit.Async.dll"));
         }
 
-        #endregion
+        #endregion Others
     }
 }
